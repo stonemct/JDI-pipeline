@@ -26,7 +26,7 @@ node {
                 sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
                 sh 'printenv' // jenkins is passing all envs variables into container
             }
-
+        }
         sh 'cat test.txt' // will be "modified-inside-container" here
     }
 
