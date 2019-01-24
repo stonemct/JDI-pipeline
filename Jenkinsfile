@@ -17,7 +17,7 @@ node {
         writeFile file: "test.txt", text: "test"
         sh 'cat test.txt' // will be "modified-inside-container" here
         docker.withTool('docker') {
-            docker.withServer('tcp://192.168.99.100:2375') {
+            docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
                 docker.image('maven').inside {
                     /* do things */
 
@@ -25,7 +25,7 @@ node {
                     sh("echo test");
                     //sh("npm install");
                     sh 'ls -la'
-                    sh 'cat /mounted' // we can mount any file from host
+                    // sh 'cat /mounted' // we can mount any file from host
                     sh 'cat test.txt' // we can access files from workspace
                     sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
                     sh 'printenv' // jenkins is passing all envs variables into container
