@@ -18,8 +18,12 @@ node {
         sh 'cat test.txt' // will be "modified-inside-container" here
 
         docker.withServer('tcp://192.168.99.100:2376') {
-            docker.image('maven') { c ->
+            docker.image('maven').inside {
                 /* do things */
+
+                print "inside a node server"
+                sh("echo test");
+                //sh("npm install");
                 sh 'ls -la'
                 sh 'cat /mounted' // we can mount any file from host
                 sh 'cat test.txt' // we can access files from workspace
