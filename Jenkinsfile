@@ -17,7 +17,7 @@ node {
         writeFile file: "test.txt", text: "test"
         sh 'cat test.txt' // will be "modified-inside-container" here
         docker.withTool('docker') {
-            docker.withServer('tcp://192.168.99.100:2376') {
+            docker.withServer('tcp://192.168.99.100:2375') {
                 docker.image('maven').inside {
                     /* do things */
 
