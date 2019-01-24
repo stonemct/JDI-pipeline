@@ -17,8 +17,8 @@ node {
         writeFile file: "test.txt", text: "test"
         sh 'cat test.txt' // will be "modified-inside-container" here
 
-        docker.withServer('tcp://192.168.99.100:2375') {
-            docker.image('maven').withRun('') {
+        docker.withServer('tcp://192.168.99.100:2376') {
+            docker.image('maven') {
                 /* do things */
                 sh 'ls -la'
                 sh 'cat /mounted' // we can mount any file from host
