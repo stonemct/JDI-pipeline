@@ -28,18 +28,18 @@ node {
 //                    sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
 //                    sh 'printenv' // jenkins is passing all envs variables into container
 //                    sh 'mvn clean -f ./Java/pom.xml'
-                        withMaven(jdk: 'JDK', maven: 'm339') {
-                            println(MVN_CMD_DIR)
-                            // some block
-                            print "inside a node server\\docker\\withMaven"
-    //                        sh 'mvn clean package'
-                            sh "ls -la ${MVN_CMD_DIR}"
-                            sh 'export PATH=$MVN_CMD_DIR:$PATH; echo $MVN_CMD_DIR; ls -la $MVN_CMD_DIR'
-//                            sh '$MVN_CMD clean package'
-                            sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean deploy"
-                        }
-                    withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                        sh 'mvn '
+//                    withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+//                        sh 'mvn clean package'
+//                    }
+                    withMaven(maven: 'm339') {
+                        println(MVN_CMD_DIR)
+                        // some block
+                        print "inside a node server\\docker\\withMaven"
+                        //                        sh 'mvn clean package'
+                        sh "ls -la ${MVN_CMD_DIR}"
+                        sh 'export PATH=$MVN_CMD_DIR:$PATH; echo $MVN_CMD_DIR; ls -la $MVN_CMD_DIR'
+//                        sh '$MVN_CMD clean package'
+                        sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean package"
                     }
                 }
             }
