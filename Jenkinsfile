@@ -37,7 +37,7 @@ node {
                         print "inside a node server\\docker\\withMaven"
                         //                        sh 'mvn clean package'
                         sh "ls -la ${MVN_CMD_DIR}"
-                        sh 'export PATH=$MVN_CMD_DIR:$PATH; echo $MVN_CMD_DIR; ls -la $MVN_CMD_DIR'
+                        sh 'export PATH=$MVN_CMD_DIR:$PATH; export $MVN_CMD; export $MVN_CMD_DIR; echo $MVN_CMD_DIR; echo; echo $MVN_CMD; ls -la $MVN_CMD_DIR'
 //                        sh '$MVN_CMD clean package'
                         sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean package"
                     }
