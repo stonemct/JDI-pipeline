@@ -30,15 +30,15 @@ node {
 //                    sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
 //                    sh 'printenv' // jenkins is passing all envs variables into container
 //                    sh 'mvn clean -f ./Java/pom.xml'
-                    maven.withTool('maven'){
-                        withMaven(jdk: 'JDK', maven: 'maven') {
+//                    maven.withTool('maven'){
+                        withMaven(jdk: 'JDK', maven: 'm339') {
                             // some block
                             print "inside a node server\\docker\\withMaven"
     //                        sh 'mvn clean package'
                             sh 'echo $MVN_CMD; for ii in {1..2}; do echo; done; echo $MVN_CMD_DIR'
-                            sh '$MVN_CMD clean deploy'
+                            sh '$MVN_CMD clean package'
                         }
-                    }
+//                    }
                 }
             }
             sh 'cat test.txt' // will be "modified-inside-container" here
