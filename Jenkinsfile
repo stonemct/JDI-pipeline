@@ -30,7 +30,7 @@ node {
 //                    sh 'mvn clean -f ./Java/pom.xml'
                     withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                         print "inside a withEnv block"
-                        sh 'mvn clean package'
+                        sh "${MVN_PATH}/mvn clean package"
                     }
 //                    withMaven(maven: 'm339') {
 //                        println(MVN_CMD_DIR)
