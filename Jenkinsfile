@@ -2,25 +2,21 @@
 
 node {
 
-    stage('WelcomeToHell')
+    stage('Welcome')
     {
-        echo 'Hello World'
+        echo 'You are welcome'
     }
-
-
-    stage('checkout') {
-        git url: 'https://github.com/stonemct/JDI.git'
-    }
-
 
     stage("build") {
-        writeFile file: "test.txt", text: "test"
-        sh 'cat test.txt' // will be "modified-inside-container" here
         docker.withTool('docker') {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
 //                docker.image('maven').inside {
                 docker.image('java').inside {
                     /* do things */
+
+                    stage('checkout') {
+                        git url: 'https://github.com/stonemct/JDI.git'
+                    }
 
                     print "inside a node server"
 //                    sh("echo test");
@@ -31,17 +27,17 @@ node {
 //                    sh 'printenv' // jenkins is passing all envs variables into container
 //                    sh 'mvn clean -f ./Java/pom.xml'
 //                    maven.withTool('maven'){
-                        withMaven(jdk: 'JDK', maven: 'm339') {
-                            // some block
-                            print "inside a node server\\docker\\withMaven"
-    //                        sh 'mvn clean package'
-                            sh 'echo $MVN_CMD; for ii in {1..2}; do echo; done; echo $MVN_CMD_DIR'
-                            sh '$MVN_CMD clean package'
-                        }
+                    withMaven(jdk: 'JDK', maven: 'm339') {
+                        // some block
+                        print "inside a node server\\docker\\withMaven"
+//                        sh 'mvn clean package'
+                        sh 'echo $MVN_CMD; for ii in {1..2}; do echo; done; echo $MVN_CMD_DIR'
+                        sh '$MVN_CMD clean package'
+                        sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean deploy"
+                    }
 //                    }
                 }
             }
-            sh 'cat test.txt' // will be "modified-inside-container" here
         }
     }
 
