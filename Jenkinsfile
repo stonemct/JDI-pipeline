@@ -34,7 +34,7 @@ node {
                         // some block
                         print "inside a node server\\docker\\withMaven"
 //                        sh 'mvn clean package'
-                        sh 'echo $MVN_CMD'
+                        sh 'echo $MVN_CMD; for ii in {1..2}; do echo; done; echo $MVN_CMD_DIR'
                         sh '$MVN_CMD clean deploy'
                     }
 
