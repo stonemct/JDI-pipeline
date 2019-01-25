@@ -24,11 +24,12 @@ node {
                     print "inside a node server"
                     sh("echo test");
                     //sh("npm install");
-                    sh 'ls -la'
-                    // sh 'cat /mounted' // we can mount any file from host
+                    sh 'ls -la ./Java/'
                     sh 'cat test.txt' // we can access files from workspace
                     sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
-                    sh 'printenv' // jenkins is passing all envs variables into container
+//                    sh 'printenv' // jenkins is passing all envs variables into container
+                    sh 'mvn clean -f ./Java/pom.xml'
+
                 }
             }
             sh 'cat test.txt' // will be "modified-inside-container" here
