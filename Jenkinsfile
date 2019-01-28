@@ -20,7 +20,7 @@ node {
 
                     stage('checkout') {
 //                        git url: 'https://github.com/stonemct/JDI.git'
-                        git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git'
+                        git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
                     }
 
                     print "inside a docker"
