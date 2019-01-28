@@ -13,7 +13,8 @@ node {
         docker.withTool('docker') {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
 //                docker.image('maven').inside {
-                docker.image('java').inside {
+//                docker.image('java').inside {
+                docker.image('mcr.microsoft.com/java/maven:8u192-zulu-debian9').inside {
                     /* do things */
 
                     stage('checkout') {
@@ -43,6 +44,9 @@ node {
 ////                        sh '$MVN_CMD clean package'
 //                        sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean package"
 //                    }
+
+                    // Archive the build output artifacts.
+                    archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
                 }
             }
         }
