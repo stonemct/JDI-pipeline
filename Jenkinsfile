@@ -19,10 +19,11 @@ node {
                     /* do things */
 
                     stage('checkout') {
-                        git url: 'https://github.com/stonemct/JDI.git'
+//                        git url: 'https://github.com/stonemct/JDI.git'
+                        git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git'
                     }
 
-                    print "inside a node server\\docker\\"
+                    print "inside a docker"
 //                    sh("echo test");
 //                    //sh("npm install");
 //                    sh 'ls -la ./Java/'
@@ -35,8 +36,7 @@ node {
                     {
                         withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                         print "inside a withEnv block"
-                        sh "cd ./Java/; ls -la; ${MVN_PATH}/mvn clean install"
-                        sh "cd ./Java/; ls -la; ${MVN_PATH}/mvn clean package"
+                        sh "ls -la; ${MVN_PATH}/mvn clean package"
                         }
                     }
 //                    withMaven(maven: 'm339') {
@@ -52,8 +52,9 @@ node {
 
                     stage('gathering the artifacts')
                             {
+                                println "skipped stage"
                                 // Archive the build output artifacts.
-                                archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
+//                                archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
                             }
                 }
             }
