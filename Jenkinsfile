@@ -14,14 +14,15 @@ node {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
 //                docker.image('maven').inside {
 //                docker.image('java').inside {
-                docker.image('mcr.microsoft.com/java/maven:8u192-zulu-debian9').inside {
+//                docker.image('mcr.microsoft.com/java/maven:8u192-zulu-debian9').inside {
+                docker.image('openjdk:8-jdk').inside {
                     /* do things */
 
                     stage('checkout') {
                         git url: 'https://github.com/stonemct/JDI.git'
                     }
 
-                    print "inside a node server"
+                    print "inside a node server\\docker\\"
 //                    sh("echo test");
 //                    //sh("npm install");
 //                    sh 'ls -la ./Java/'
@@ -29,10 +30,14 @@ node {
 //                    sh 'echo "modified-inside-container" > test.txt' // we can modify files in workspace
 //                    sh 'printenv' // jenkins is passing all envs variables into container
 //                    sh 'mvn clean -f ./Java/pom.xml'
-                    withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+
+                    stage('maven build package')
+                    {
+                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                         print "inside a withEnv block"
                         sh "cd ./Java/; ls -la; ${MVN_PATH}/mvn clean install"
                         sh "cd ./Java/; ls -la; ${MVN_PATH}/mvn clean package"
+                        }
                     }
 //                    withMaven(maven: 'm339') {
 //                        println(MVN_CMD_DIR)
@@ -45,8 +50,11 @@ node {
 //                        sh "export PATH=$MVN_CMD_DIR:$PATH && mvn clean package"
 //                    }
 
-                    // Archive the build output artifacts.
-                    archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
+                    stage('gathering the artifacts')
+                            {
+                                // Archive the build output artifacts.
+                                archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
+                            }
                 }
             }
         }
