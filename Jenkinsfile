@@ -36,7 +36,8 @@ node {
                     {
                         withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                         print "inside a withEnv block"
-                        sh "ls -la; ${MVN_PATH}/mvn clean package"
+//                        sh "ls -la; ${MVN_PATH}/mvn clean package"
+                        sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
                         }
                     }
 //                    withMaven(maven: 'm339') {
