@@ -19,6 +19,7 @@ node {
                     print "inside a docker"
                     sh 'mkdir -p cucumber-test-generator-ui'
                     dir path: 'cucumber-test-generator-ui'
+                    sh 'pwd'
 
                     stage('checkout cucumber-test-generator-ui'){
                         git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
