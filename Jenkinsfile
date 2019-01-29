@@ -31,6 +31,7 @@ node {
                                 // Archive the build output artifacts.
                                 archiveArtifacts artifacts: 'dist/*', excludes: ''
                             }
+                    stash name: 'npmstash', includes: 'dist/*'
                 }
     }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
@@ -51,7 +52,11 @@ node {
     
                 sh 'pwd'
 //                copyArtifacts excludes: '', filter: 'dist/*', parameters: 'Parameter filters', projectName: 'JDI-pipeline', selector: lastSuccessful(), target: 'toThe'
-                copyArtifacts excludes: '', filter: 'dist/*', projectName: 'JDI-pipeline', selector: specific('BUILD_NUMBER'), target: './'
+/*//                copyArtifacts excludes: '', filter: 'dist/*', projectName: 'JDI-pipeline', selector: specific('env.BUILD_NUMBER'), target: './'
+*/
+                unstash name: 'npmstash'
+                sh "ls -la"
+                
                 docker.withTool('docker')
                     {
                         docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
