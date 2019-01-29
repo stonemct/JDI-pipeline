@@ -17,8 +17,8 @@ node {
 
                 docker.image('openjdk:8-jdk').inside {
                     print "inside a docker"
-                    sh 'mkdir cucumber-test-generator-ui'
-                    dir cucumber-test-generator-ui
+                    sh 'mkdir -p cucumber-test-generator-ui'
+                    dir path: 'cucumber-test-generator-ui'
 
                     stage('checkout cucumber-test-generator-ui'){
                         git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
