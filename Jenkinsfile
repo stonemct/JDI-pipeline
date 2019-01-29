@@ -23,12 +23,14 @@ node {
                             }
                             stage('npm build ')
                                     {
-                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
-                                            print "inside a withEnv block"
-                                            sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
-                                            sh "ls -la; ${NPM_PATH}/npm install"
-                                            sh "ls -la; ${NPM_PATH}/npm run build"
-                                        }
+//                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
+//                                            print "inside a withEnv block"
+//                                            sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
+//                                            sh "ls -la; ${NPM_PATH}/npm install"
+//                                            sh "ls -la; ${NPM_PATH}/npm run build"
+//                                        }
+                                        sh "ls -la; npm install"
+                                        sh "ls -la; npm run build"
                                     }
 //                    withTool('nodeJS'){
 //                        sh 'npm install'
