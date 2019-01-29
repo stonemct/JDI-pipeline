@@ -26,6 +26,11 @@ node {
                                     }
                                 }
                     }
+                    stage('gathering the artifacts')
+                            {
+                                // Archive the build output artifacts.
+                                archiveArtifacts artifacts: 'dist/*', excludes: ''
+                            }
                 }
     }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
@@ -39,37 +44,41 @@ node {
 //                        sh 'npm install'
 //                        sh 'npm run build'
 //                    }
-
-/*
-            docker.withTool('docker')
+    
+    stage("maven build") {
+        dir(path: 'cucumber-test-generator')
             {
-                docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
-                {
-                    docker.image('openjdk:8-jdk').inside
+    
+                sh 'pwd'
+//                copyArtifacts excludes: '', filter: 'dist/*', parameters: 'Parameter filters', projectName: 'JDI-pipeline', selector: lastSuccessful(), target: 'toThe'
+                copyArtifacts excludes: '', filter: 'dist/*', projectName: 'JDI-pipeline', selector: specific('BUILD_NUMBER'), target: './'
+                docker.withTool('docker')
                     {
-
-
-
-                    stage('checkout jdi-cucumber-test-generator') {
-                        git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+                        docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
+                            {
+                                docker.image('openjdk:8-jdk').inside
+                                    {
+                                        
+                                        stage('checkout jdi-cucumber-test-generator') {
+                                            git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+                                        }
+                                        
+                                        stage('maven build package')
+                                            {
+                                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+                                                    print "inside a withEnv block"
+                                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
+                                                }
+                                            }
+                                        stage('gathering the artifacts')
+                                            {
+                                                // Archive the build output artifacts.
+                                                archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
+                                            }
+                                    }
+                            }
                     }
-
-
-                    stage('maven build package')
-                            {
-                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                                    print "inside a withEnv block"
-                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-                                }
-                            }
-
-                    stage('gathering the artifacts')
-                            {
-                                // Archive the build output artifacts.
-                                archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
-                            }
-                }
-            }*/
+            }
 
 
 
