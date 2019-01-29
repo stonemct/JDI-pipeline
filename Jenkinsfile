@@ -58,11 +58,11 @@ node {
                             {
                                 docker.image('openjdk:8-jdk').inside
                                     {
-                                        
+    
                                         stage('checkout jdi-cucumber-test-generator') {
                                             git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
                                         }
-                                        
+    
                                         stage('maven build package')
                                             {
                                                 withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
@@ -79,6 +79,7 @@ node {
                             }
                     }
             }
+    }
 
 
 
