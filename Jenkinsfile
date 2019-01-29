@@ -29,10 +29,10 @@ node {
                     {
                         withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
                             print "inside a withEnv block"
-                            dir {
+//                            dir {
                                 sh "ls -la; ${NPM_PATH}/npm install"
                                 sh "ls -la; ${NPM_PATH}/npm run build"
-                            }
+//                            }
                         }
                     }
 
