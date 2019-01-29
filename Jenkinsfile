@@ -55,7 +55,7 @@ node {
                             {
                                 println "skipped stage"
                                 // Archive the build output artifacts.
-//                                archiveArtifacts artifacts: 'output/*.txt', excludes: 'output/*.md'
+                                archiveArtifacts artifacts: 'bdd-generator\\target\\bdd-generator-1.0.0*.jar', excludes: ''
                             }
                 }
             }
