@@ -12,34 +12,33 @@ node {
     stage("build") {
         docker.withTool('docker') {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
-//                docker.image('nodejs').inside {
-//                }
+                docker.image('nodejs').inside {
+                print "inside a docker"
+//                    sh 'mkdir -p cucumber-test-generator-ui'
+                dir (path: 'cucumber-test-generator-ui2')
+                        {
+                            sh 'pwd'
+                            stage('checkout cucumber-test-generator-ui'){
+                                git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
+                            }
+                            stage('npm build ')
+                                    {
+                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
+                                            print "inside a withEnv block"
+                                            sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
+                                            sh "ls -la; ${NPM_PATH}/npm install"
+                                            sh "ls -la; ${NPM_PATH}/npm run build"
+                                        }
+                                    }
+                        }
+                }
 
                 docker.image('openjdk:8-jdk').inside {
-                    print "inside a docker"
-                    sh 'mkdir -p cucumber-test-generator-ui'
-                    dir (path: 'cucumber-test-generator-ui')
-                    {
-                        sh 'pwd'
-                        stage('checkout cucumber-test-generator-ui'){
-                            git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
-                        }
-                    }
-
-
 //                    withTool('nodeJS'){
 //                        sh 'npm install'
 //                        sh 'npm run build'
 //                    }
-                    stage('npm build ')
-                    {
-                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
-                            print "inside a withEnv block"
-                                sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
-                                sh "ls -la; ${NPM_PATH}/npm install"
-                                sh "ls -la; ${NPM_PATH}/npm run build"
-                        }
-                    }
+
 /*
                     stage('checkout jdi-cucumber-test-generator') {
                         git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
