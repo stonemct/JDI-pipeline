@@ -12,13 +12,20 @@ node {
     stage("build") {
         docker.withTool('docker') {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
-//                docker.image('maven').inside {
-//                docker.image('java').inside {
-//                docker.image('mcr.microsoft.com/java/maven:8u192-zulu-debian9').inside {
+//                docker.image('nodejs').inside {
+//                }
+
                 docker.image('openjdk:8-jdk').inside {
+                    stage('checkout cucumber-test-generator-ui'){
+                        git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
+                    }
+                    withtool('nodeJS'){
+                        sh 'npm install'
+                        sh 'npm run build'
+                    }
                     /* do things */
 
-                    stage('checkout') {
+                    stage('checkout jdi-cucumber-test-generator') {
 //                        git url: 'https://github.com/stonemct/JDI.git'
                         git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
                     }
@@ -33,13 +40,13 @@ node {
 //                    sh 'mvn clean -f ./Java/pom.xml'
 
                     stage('maven build package')
-                    {
-                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                        print "inside a withEnv block"
+                            {
+                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+                                    print "inside a withEnv block"
 //                        sh "ls -la; ${MVN_PATH}/mvn clean package"
-                        sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-                        }
-                    }
+                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
+                                }
+                            }
 //                    withMaven(maven: 'm339') {
 //                        println(MVN_CMD_DIR)
 //                        // some block
@@ -53,7 +60,7 @@ node {
 
                     stage('gathering the artifacts')
                             {
-                                println "skipped stage"
+//                                println "skipped stage"
                                 // Archive the build output artifacts.
                                 archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
                             }
