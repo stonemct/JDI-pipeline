@@ -17,6 +17,8 @@ node {
 
                 docker.image('openjdk:8-jdk').inside {
                     print "inside a docker"
+                    sh 'mkdir cucumber-test-generator-ui'
+                    dir cucumber-test-generator-ui
 
                     stage('checkout cucumber-test-generator-ui'){
                         git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
@@ -29,14 +31,13 @@ node {
                     {
                         withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
                             print "inside a withEnv block"
-//                            dir {
+                                sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
                                 sh "ls -la; ${NPM_PATH}/npm install"
                                 sh "ls -la; ${NPM_PATH}/npm run build"
-//                            }
                         }
                     }
-
-                                stage('checkout jdi-cucumber-test-generator') {
+/*
+                    stage('checkout jdi-cucumber-test-generator') {
                         git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
                     }
 
@@ -53,7 +54,7 @@ node {
                             {
                                 // Archive the build output artifacts.
                                 archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
-                            }
+                            }*/
                 }
             }
         }
