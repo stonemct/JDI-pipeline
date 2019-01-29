@@ -12,7 +12,7 @@ node {
     stage("build") {
         docker.withTool('docker') {
             docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS') {
-                docker.image('nodejs').inside {
+                docker.image('node').inside {
                 print "inside a docker"
 //                    sh 'mkdir -p cucumber-test-generator-ui'
                 dir (path: 'cucumber-test-generator-ui2')
@@ -30,14 +30,15 @@ node {
                                             sh "ls -la; ${NPM_PATH}/npm run build"
                                         }
                                     }
-                        }
-                }
-
-                docker.image('openjdk:8-jdk').inside {
 //                    withTool('nodeJS'){
 //                        sh 'npm install'
 //                        sh 'npm run build'
 //                    }
+                        }
+                }
+
+                docker.image('openjdk:8-jdk').inside {
+
 
 /*
                     stage('checkout jdi-cucumber-test-generator') {
