@@ -58,9 +58,10 @@ node {
             {
                 docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
-                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
-                        docker.image('openjdk:8-jdk').inside
-                            {
+//                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
+                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash').inside {
+//                        docker.image('openjdk:8-jdk').inside
+//                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps -a; sleep 10"
                                 
@@ -78,7 +79,7 @@ node {
 //                                        // Archive the build output artifacts.
 //                                        archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
 //                                    }
-                            }
+//                            }
                     }
     
                 }
