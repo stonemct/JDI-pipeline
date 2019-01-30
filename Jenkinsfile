@@ -62,7 +62,7 @@ node {
                         docker.image('openjdk:8-jdk').inside
                             {
                                 //sh 'while true ; do sleep 1; done'
-                                sh 'docker ps -a; sleep 10'
+                                sh "${tool 'docker'}/bin/docker ps -a; sleep 10"
                                 
 //                                stage('maven build package')
 //                                    {
