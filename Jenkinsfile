@@ -10,8 +10,8 @@ node {
     stage("npm build") {
         dir(path: 'cucumber-test-generator-ui-new')
                 {
-                    sh 'pwd'
-                    step('checkout cucumber-test-generator-ui') {
+                    steps('checkout cucumber-test-generator-ui') {
+                        sh 'pwd'
                         git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
                     }
 
@@ -26,12 +26,12 @@ node {
                                     }
                                 }
                     }
-                    step('gathering the artifacts')
+                    steps('gathering the artifacts')
                             {
                                 // Archive the build output artifacts.
                                 archiveArtifacts artifacts: 'dist/*', excludes: ''
+                                stash name: 'npmstash', includes: 'dist/*'
                             }
-                    stash name: 'npmstash', includes: 'dist/*'
                 }
     }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
@@ -50,12 +50,12 @@ node {
         dir(path: 'cucumber-test-generator')
             {
     
-                sh 'pwd'
-                step('checkout jdi-cucumber-test-generator') {
+                steps('checkout jdi-cucumber-test-generator') {
+                    sh 'pwd'
                     git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+                    unstash name: 'npmstash'
+                    sh "ls -la"
                 }
-                unstash name: 'npmstash'
-                sh "ls -la"
     
                 docker.withTool('docker')
                     {
@@ -65,14 +65,14 @@ node {
                                     {
     
     
-                                        step('maven build package')
+                                        stage('maven build package')
                                             {
                                                 withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                                                     print "inside a withEnv block"
                                                     sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
                                                 }
                                             }
-                                        step('gathering the artifacts')
+                                        steps('gathering the artifacts')
                                             {
                                                 // Archive the build output artifacts.
                                                 archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
@@ -82,16 +82,5 @@ node {
                     }
             }
     }
-
-
-
-    stage('Example') {
-        if (env.BRANCH_NAME == 'master') {
-            echo 'I only execute on the master branch'
-        } else {
-            echo 'I execute elsewhere'
-            println("${env.BRANCH_NAME}")
-        }
-    }
-
-}
+    
+}// end of
