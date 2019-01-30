@@ -28,7 +28,7 @@ node {
             stage('archive Artifacts and stash result'){
                 // Archive the build output artifacts.
                 archiveArtifacts artifacts: 'dist', excludes: ''
-                stash name: 'npmstash', includes: 'dist'
+                stash name: 'npmstash', includes: 'dist/*'
             }
         }
     }
