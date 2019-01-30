@@ -72,6 +72,7 @@ node {
                                             print "inside a withEnv block"
                                             sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
 //                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
+                                            sh "netstat -pntl"
                                             sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                         }
                                     }
