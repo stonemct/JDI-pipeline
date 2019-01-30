@@ -58,21 +58,25 @@ node {
             {
                 docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
-                    docker.image('openjdk:8-jdk').inside
-                    {
-                        stage('maven build package')
+                    docker.image('openjdk:8-jdk').withRun('-p 8080:8888') { c ->
+                        docker.image('openjdk:8-jdk').inside
                             {
-                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                                    print "inside a withEnv block"
-                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-                                }
-                            }
-                        stage('gathering the artifacts')
-                            {
-                                // Archive the build output artifacts.
-                                archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
+                                stage('maven build package')
+                                    {
+                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+                                            print "inside a withEnv block"
+                                            sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
+                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+                                        }
+                                    }
+                                stage('gathering the artifacts')
+                                    {
+                                        // Archive the build output artifacts.
+                                        archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
+                                    }
                             }
                     }
+    
                 }
             }
         }
