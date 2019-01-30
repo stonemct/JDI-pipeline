@@ -59,7 +59,7 @@ node {
                 docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
-                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') {
+                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080') {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
 //                        docker.image('openjdk:8-jdk').inside
 //                            {
