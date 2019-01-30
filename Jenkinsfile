@@ -2,7 +2,7 @@
 
 node {
     
-    stages("npm build") {
+    stage("npm build") {
         stage('Welcome')
         {
             echo 'You are welcome'
@@ -44,7 +44,7 @@ node {
 //                        sh 'npm run build'
 //                    }
     
-    stages("maven build") {
+    stage("maven build") {
         dir(path: 'cucumber-test-generator')
         {
             stage('checkout jdi-cucumber-test-generator') {
