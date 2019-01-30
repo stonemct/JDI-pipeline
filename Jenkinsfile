@@ -47,19 +47,20 @@ node {
     stage("maven build") {
         dir(path: 'cucumber-test-generator')
         {
-            stage('checkout jdi-cucumber-test-generator') {
-                sh 'pwd'
-                git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
-//                unstash name: 'npmstash'
-                sh "ls -la"
-            }
+//            stage('checkout jdi-cucumber-test-generator') {
+//                sh 'pwd'
+//                git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+////                unstash name: 'npmstash'
+//                sh "ls -la"
+//            }
 
             docker.withTool('docker')
             {
                 docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
-                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
+                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') {
+//                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
 //                        docker.image('openjdk:8-jdk').inside
 //                            {
                                 //sh 'while true ; do sleep 1; done'
