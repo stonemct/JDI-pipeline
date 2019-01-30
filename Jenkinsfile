@@ -66,8 +66,8 @@ node {
                                         withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                                             print "inside a withEnv block"
                                             sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
-//                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+//                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
+                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                         }
                                     }
                                 stage('gathering the artifacts')
