@@ -61,20 +61,22 @@ node {
                     docker.image('openjdk:8-jdk').withRun('-p 8081:8080') { c ->
                         docker.image('openjdk:8-jdk').inside
                             {
-                                stage('maven build package')
-                                    {
-                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                                            print "inside a withEnv block"
-                                            sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-//                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
-                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
-                                        }
-                                    }
-                                stage('gathering the artifacts')
-                                    {
-                                        // Archive the build output artifacts.
-                                        archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
-                                    }
+                                sh 'while ! true ; do sleep 1; done'
+                                
+//                                stage('maven build package')
+//                                    {
+//                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+//                                            print "inside a withEnv block"
+//                                            sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
+////                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
+//                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+//                                        }
+//                                    }
+//                                stage('gathering the artifacts')
+//                                    {
+//                                        // Archive the build output artifacts.
+//                                        archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
+//                                    }
                             }
                     }
     
