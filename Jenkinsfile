@@ -10,7 +10,7 @@ node {
     stage("npm build") {
         dir(path: 'cucumber-test-generator-ui-new')
                 {
-                    steps('checkout cucumber-test-generator-ui') {
+                    steps{
                         sh 'pwd'
                         git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
                     }
@@ -26,12 +26,11 @@ node {
                                     }
                                 }
                     }
-                    steps('gathering the artifacts')
-                            {
-                                // Archive the build output artifacts.
-                                archiveArtifacts artifacts: 'dist/*', excludes: ''
-                                stash name: 'npmstash', includes: 'dist/*'
-                            }
+                    steps{
+                        // Archive the build output artifacts.
+                        archiveArtifacts artifacts: 'dist/*', excludes: ''
+                        stash name: 'npmstash', includes: 'dist/*'
+                    }
                 }
     }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
@@ -46,11 +45,11 @@ node {
 //                        sh 'npm run build'
 //                    }
     
-    stage("maven build") {
+    stages("maven build") {
         dir(path: 'cucumber-test-generator')
             {
     
-                steps('checkout jdi-cucumber-test-generator') {
+                stage('checkout jdi-cucumber-test-generator') {
                     sh 'pwd'
                     git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
                     unstash name: 'npmstash'
@@ -72,7 +71,7 @@ node {
                                                     sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
                                                 }
                                             }
-                                        steps('gathering the artifacts')
+                                        stage('gathering the artifacts')
                                             {
                                                 // Archive the build output artifacts.
                                                 archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
