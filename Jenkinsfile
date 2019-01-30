@@ -47,12 +47,12 @@ node {
     stage("maven build") {
         dir(path: 'cucumber-test-generator')
         {
-//            stage('checkout jdi-cucumber-test-generator') {
-//                sh 'pwd'
-//                git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
-////                unstash name: 'npmstash'
-//                sh "ls -la"
-//            }
+            stage('checkout jdi-cucumber-test-generator') {
+                sh 'pwd'
+                git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+//                unstash name: 'npmstash'
+                sh "ls -la"
+            }
 
             docker.withTool('docker')
             {
