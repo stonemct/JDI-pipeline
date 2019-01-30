@@ -2,36 +2,36 @@
 
 node {
     
-    stage("npm build") {
-        stage('Welcome')
-        {
-            echo 'You are welcome'
-        }
-        dir(path: 'cucumber-test-generator-ui-new')
-        {
-            stage('git checkout'){
-                sh 'pwd'
-                git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
-            }
-
-            docker.withTool('docker') {
-                docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
-                {
-                    docker.image('node').inside {
-                        print "inside a docker"
-                        sh "ls -la; npm install"
-                        sh "ls -la; npm run build"
-
-                    }
-                }
-            }
-            stage('archive Artifacts and stash result'){
-                // Archive the build output artifacts.
-                archiveArtifacts artifacts: 'dist/*', excludes: ''
-                stash name: 'npmstash', includes: 'dist/*'
-            }
-        }
-    }
+//    stage("npm build") {
+//        stage('Welcome')
+//        {
+//            echo 'You are welcome'
+//        }
+//        dir(path: 'cucumber-test-generator-ui-new')
+//        {
+//            stage('git checkout'){
+//                sh 'pwd'
+//                git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
+//            }
+//
+//            docker.withTool('docker') {
+//                docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
+//                {
+//                    docker.image('node').inside {
+//                        print "inside a docker"
+//                        sh "ls -la; npm install"
+//                        sh "ls -la; npm run build"
+//
+//                    }
+//                }
+//            }
+//            stage('archive Artifacts and stash result'){
+//                // Archive the build output artifacts.
+//                archiveArtifacts artifacts: 'dist/*', excludes: ''
+//                stash name: 'npmstash', includes: 'dist/*'
+//            }
+//        }
+//    }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
 //                                            print "inside a withEnv block"
 //                                            sh "ls -la ${NPM_PATH}; ${NPM_PATH}/npm"
