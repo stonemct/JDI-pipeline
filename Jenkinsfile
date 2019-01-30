@@ -1,37 +1,36 @@
 #!/usr/bin/env groovy
 
 node {
-
-    stage('Welcome')
-    {
-        echo 'You are welcome'
-    }
-
-    stage("npm build") {
+    
+    stages("npm build") {
+        stage('Welcome')
+        {
+            echo 'You are welcome'
+        }
         dir(path: 'cucumber-test-generator-ui-new')
+        {
+            stage('git checkout'){
+                sh 'pwd'
+                git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
+            }
+
+            docker.withTool('docker') {
+                docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
-                    steps{
-                        sh 'pwd'
-                        git url: 'https://github.com/TAI-EPAM/cucumber-test-generator-ui.git'
-                    }
+                    docker.image('node').inside {
+                        print "inside a docker"
+                        sh "ls -la; npm install"
+                        sh "ls -la; npm run build"
 
-                    docker.withTool('docker') {
-                        docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
-                                {
-                                    docker.image('node').inside {
-                                        print "inside a docker"
-                                        sh "ls -la; npm install"
-                                        sh "ls -la; npm run build"
-
-                                    }
-                                }
-                    }
-                    steps{
-                        // Archive the build output artifacts.
-                        archiveArtifacts artifacts: 'dist/*', excludes: ''
-                        stash name: 'npmstash', includes: 'dist/*'
                     }
                 }
+            }
+            stage('archive Artifacts and stash result'){
+                // Archive the build output artifacts.
+                archiveArtifacts artifacts: 'dist/*', excludes: ''
+                stash name: 'npmstash', includes: 'dist/*'
+            }
+        }
     }
 //                                        withEnv(["NPM_PATH=${tool 'nodeJS'}/bin"]) {
 //                                            print "inside a withEnv block"
@@ -47,39 +46,36 @@ node {
     
     stages("maven build") {
         dir(path: 'cucumber-test-generator')
+        {
+            stage('checkout jdi-cucumber-test-generator') {
+                sh 'pwd'
+                git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
+                unstash name: 'npmstash'
+                sh "ls -la"
+            }
+
+            docker.withTool('docker')
             {
-    
-                stage('checkout jdi-cucumber-test-generator') {
-                    sh 'pwd'
-                    git url: 'https://github.com/TAI-EPAM/jdi-cucumber-test-generator.git', tag: '1.0.0'
-                    unstash name: 'npmstash'
-                    sh "ls -la"
-                }
-    
-                docker.withTool('docker')
+                docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
+                {
+                    docker.image('openjdk:8-jdk').inside
                     {
-                        docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
+                        stage('maven build package')
                             {
-                                docker.image('openjdk:8-jdk').inside
-                                    {
-    
-    
-                                        stage('maven build package')
-                                            {
-                                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                                                    print "inside a withEnv block"
-                                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
-                                                }
-                                            }
-                                        stage('gathering the artifacts')
-                                            {
-                                                // Archive the build output artifacts.
-                                                archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
-                                            }
-                                    }
+                                withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+                                    print "inside a withEnv block"
+                                    sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
+                                }
+                            }
+                        stage('gathering the artifacts')
+                            {
+                                // Archive the build output artifacts.
+                                archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
                             }
                     }
+                }
             }
+        }
     }
     
 }// end of
