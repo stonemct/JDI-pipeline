@@ -68,7 +68,7 @@ node {
 //                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps -a"
-                                sh "uname -a; whoami"
+                                sh "uname -a; env"
                                 
                                 stage('maven build package')
                                     {
