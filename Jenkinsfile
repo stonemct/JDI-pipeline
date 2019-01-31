@@ -81,7 +81,7 @@ node {
 //                                            sh "curl -I localhost:8080"
 //                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             
-                                            sh "uname -a"
+                                            sh "uname -a; env"
 //                                            sh "${tool 'docker'}/bin/docker logs ${c.id}"
                                             sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                         }
