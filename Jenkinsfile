@@ -63,8 +63,8 @@ node {
                     docker.image('ubuntu:16.04').withRun('-it -p 999:8080') { c ->
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
 //                        docker.image('openjdk:8-jdk').inside
-                        docker.image('ubuntu:16.04').inside
-                            {
+//                        docker.image('ubuntu:16.04').inside
+//                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps -a"
                                 sh "uname -a"
@@ -83,7 +83,7 @@ node {
 //                                            sh "curl -I localhost:8080"
 //                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
-                                            sh "which java"
+                                            sh "which java; java"
                                         }
                                     }
 //                                stage('gathering the artifacts')
@@ -91,7 +91,7 @@ node {
 //                                        // Archive the build output artifacts.
 //                                        archiveArtifacts artifacts: 'bdd-generator/target/bdd-generator-1.0.0*.jar', excludes: ''
 //                                    }
-                            }
+//                            }
                     }
     
                 }
