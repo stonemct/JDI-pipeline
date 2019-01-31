@@ -68,9 +68,9 @@ node {
 //                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps"
-                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
-                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
-                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
+                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
+                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
+                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
                         
                                 stage('maven build package')
                                     {
