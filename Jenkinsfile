@@ -80,9 +80,9 @@ node {
                                             
                                             sh "pwd; echo $PATH; which ls; ls -la ${MVN_PATH}; ls -la ${env.JAVA_HOME}/bin"
                                             sh "${MVN_PATH}/mvn clean package -DskipTests=true"
-                                            sh "curl -I localhost:8080"
-                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
-//                                            sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+//                                            sh "curl -I localhost:8080"
+//                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+                                            sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             sh "which java"
                                         }
                                     }
