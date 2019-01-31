@@ -67,7 +67,7 @@ node {
 //                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps -a"
-                                sh "uname -a"
+                                sh "uname -a; whoami"
                                 
                                 stage('maven build package')
                                     {
@@ -84,7 +84,7 @@ node {
 //                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             
                                             sh "uname -a"
-                                            sh "docker logs ${c.id}"
+                                            sh "${tool 'docker'}/bin/docker logs ${c.id}"
                                             sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             sh "which java; java"
                                         }
