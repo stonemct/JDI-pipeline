@@ -61,13 +61,14 @@ node {
 //                    docker.image('ubuntu:16.04').withRun('-it -p 999:8080') { c ->
                     docker.image('ubuntu:16.04').inside('-it -p 999:8080')
                         {
-                                //sh 'while true ; do sleep 1; done'
-                                sh "${tool 'docker'}/bin/docker ps"
-                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
-                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
-                                sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
-                        
-                                stage('maven build package')
+                            //sh 'while true ; do sleep 1; done'
+                            sh "${tool 'docker'}/bin/docker ps"
+                            sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
+                            sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
+                            sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
+                            sh "uname -a; env"
+    
+                            stage('maven build package')
                                     {
 //                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
                                         withEnv(["JAVA_HOME=${ tool 'JDK' }", "MVN_PATH=${tool 'maven'}/bin", "PATH=${PATH}:${tool 'maven'}/bin:${JAVA_HOME}/bin"]) {
@@ -80,8 +81,9 @@ node {
 //                                            sh "${MVN_PATH}/mvn clean package -DskipTests=true"
 //                                            sh "curl -I localhost:8080"
 //                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
-                                            
+    
                                             sh "uname -a; env"
+                                            sh "echo \'docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}\'"
 //                                            sh "${tool 'docker'}/bin/docker logs ${c.id}"
                                             sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                         }
