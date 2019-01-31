@@ -59,16 +59,19 @@ node {
                 docker.withServer('tcp://192.168.99.100:2376', 'dockerTLS')
                 {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
-                    docker.image('openjdk:8-jdk').withRun('-it -p 999:8080') {
+//                    docker.image('openjdk:8-jdk').withRun('-it -p 999:8080') {
+                    docker.image('ubuntu:16.04').withRun('-it -p 999:8080') {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
 //                        docker.image('openjdk:8-jdk').inside
 //                            {
                                 //sh 'while true ; do sleep 1; done'
                                 sh "${tool 'docker'}/bin/docker ps -a; sleep 10"
+                                sh "uname -a"
                                 
                                 stage('maven build package')
                                     {
-                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+//                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
+                                        withEnv(["JAVA_HOME=${ tool 'JDK' }", "PATH+MAVEN=${tool 'maven'}/bin:${env.JAVA_HOME}/bin"]) {
                                             print "inside a withEnv block"
                                             sh "ls -la; ${MVN_PATH}/mvn clean package -DskipTests=true"
 //                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
