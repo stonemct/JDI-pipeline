@@ -67,9 +67,11 @@ node {
 //                        docker.image('ubuntu:16.04').inside
 //                            {
                                 //sh 'while true ; do sleep 1; done'
-                                sh "${tool 'docker'}/bin/docker ps -a"
-                                sh "uname -a; env"
-                                
+                                sh "${tool 'docker'}/bin/docker ps"
+                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
+                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
+                                sh "echo docker-host-id: ${HOSTNAME} ;  build:${BUILD_DISPLAY_NAME}"
+                        
                                 stage('maven build package')
                                     {
 //                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
@@ -85,7 +87,7 @@ node {
 //                                            sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             
                                             sh "uname -a"
-                                            sh "${tool 'docker'}/bin/docker logs ${c.id}"
+//                                            sh "${tool 'docker'}/bin/docker logs ${c.id}"
                                             sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             sh "which java; java"
                                         }
