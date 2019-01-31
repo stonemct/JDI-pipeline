@@ -60,7 +60,7 @@ node {
                 {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080 bash') { c ->
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 999:8080') {
-                    docker.image('ubuntu:16.04').withRun('-it -p 999:8080') {
+                    docker.image('ubuntu:16.04').withRun('-it -p 999:8080').inside {
 //                    docker.image('openjdk:8-jdk').withRun('-it -p 8081:8080').inside {
 //                        docker.image('openjdk:8-jdk').inside
 //                            {
