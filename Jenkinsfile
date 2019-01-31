@@ -72,7 +72,7 @@ node {
                                 stage('maven build package')
                                     {
 //                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-                                        withEnv(["JAVA_HOME=${ tool 'JDK' }", "MVN_PATH=${tool 'maven'}/bin", "PATH=${PATH}:${tool 'maven'}/bin:${env.JAVA_HOME}/bin"]) {
+                                        withEnv(["JAVA_HOME=${ tool 'JDK' }", "MVN_PATH=${tool 'maven'}/bin", "PATH=${PATH}:${tool 'maven'}/bin:${JAVA_HOME}/bin"]) {
                                             print "inside a withEnv block"
                                             println(PATH)
                                             println(MVN_PATH)
