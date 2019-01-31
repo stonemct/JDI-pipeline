@@ -66,27 +66,24 @@ node {
                         docker.image('ubuntu:16.04').inside
                             {
                                 //sh 'while true ; do sleep 1; done'
-                                sh "${tool 'docker'}/bin/docker ps -a; sleep 10"
+                                sh "${tool 'docker'}/bin/docker ps -a"
                                 sh "uname -a"
                                 
                                 stage('maven build package')
                                     {
 //                                        withEnv(["MVN_PATH=${tool 'maven'}/bin"]) {
-//                                        withEnv(["JAVA_HOME=${ tool 'JDK' }", "PATH+MAVEN=${tool 'maven'}/bin:${env.JAVA_HOME}/bin"]) {
                                         withEnv(["JAVA_HOME=${ tool 'JDK' }", "MVN_PATH=${tool 'maven'}/bin", "PATH=${PATH}:${tool 'maven'}/bin:${env.JAVA_HOME}/bin"]) {
                                             print "inside a withEnv block"
                                             println(PATH)
                                             println(MVN_PATH)
                                             println(JAVA_HOME)
                                             
-                                            sh "pwd; echo $PATH; which ls; ls -la ${MVN_PATH}"
-                                            sh "mvn clean package -DskipTests=true"
-//                                            sh "${MVN_PATH}/mvn clean package -DskipTests=true"
-//                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
+                                            sh "pwd; echo $PATH; which ls; ls -la ${MVN_PATH}; ls -la ${env.JAVA_HOME}/bin"
+                                            sh "${MVN_PATH}/mvn clean package -DskipTests=true"
                                             sh "curl -I localhost:8080"
                                             sh "java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
+//                                            sh "${JAVA_HOME}/bin/java -jar bdd-generator/target/bdd-generator-1.0.0-exec.jar"
                                             sh "which java"
-//                                            sh "which mvn"
                                         }
                                     }
 //                                stage('gathering the artifacts')
