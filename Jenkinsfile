@@ -79,7 +79,7 @@ node {
                                             println(MVN_PATH)
                                             println(JAVA_HOME)
                                             
-                                            sh "ls -la; echo $PATH; which mvn; which java; "
+                                            sh "ls -la; echo $PATH; which ls; which mvn; which java; "
                                             sh "${MVN_PATH}/mvn clean package -DskipTests=true"
 //                                            sh "which mvn; which java; mvn clean package -DskipTests=true"
 //                                            sh "${MVN_PATH}/mvn spring-boot:run -f bdd-generator"
